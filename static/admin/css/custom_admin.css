@@ -1,0 +1,96 @@
+/* Custom Admin Styles for Crane Monitoring */
+
+/* Status indicators */
+.status-working { color: #28a745; font-weight: bold; }
+.status-idle { color: #6c757d; }
+.status-maintenance { color: #ffc107; }
+.status-error { color: #dc3545; font-weight: bold; }
+
+/* Severity colors */
+.severity-critical { color: #dc3545; font-weight: bold; }
+.severity-high { color: #fd7e14; }
+.severity-medium { color: #ffc107; }
+.severity-low { color: #20c997; }
+
+/* Load status */
+.load-normal { color: #28a745; }
+.load-warning { color: #ffc107; }
+.load-overload { color: #dc3545; font-weight: bold; }
+
+/* Data completeness */
+.data-complete { color: #28a745; }
+.data-partial { color: #ffc107; }
+.data-incomplete { color: #dc3545; }
+
+/* Custom buttons */
+.button {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 2px;
+    background: #417690;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.button:hover {
+    background: #205067;
+    color: white;
+}
+
+.button.success { background: #28a745; }
+.button.warning { background: #ffc107; }
+.button.danger { background: #dc3545; }
+
+/* Dashboard cards in admin */
+.dashboard-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.dashboard-card h3 {
+    margin-top: 0;
+    color: #417690;
+}
+
+/* Quick stats */
+.quick-stats {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 10px;
+    min-width: 100px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #417690;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+/* Responsive tables */
+@media (max-width: 768px) {
+    .object-tools {
+        float: none;
+        margin-bottom: 10px;
+    }
+    
+    .quick-stats {
+        flex-direction: column;
+    }
+}
