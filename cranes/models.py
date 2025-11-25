@@ -354,3 +354,32 @@ class CraneDailyKPIs(models.Model):
                 name='unique_crane_daily_kpis'
             )
         ]
+
+class DataPointMapping(models.Model):
+    FIELD_TYPE_CHOICES = [
+        ('motor_voltage', 'Motor Voltage'),
+        ('motor_current', 'Motor Current'),
+        ('motor_power', 'Motor Power'),
+        ('motor_frequency', 'Motor Frequency'),
+        ('load', 'Load'),
+        ('capacity', 'Capacity'),
+        ('io_status', 'IO Status'),
+        ('alarm', 'Alarm'),
+    ]
+    
+    crane = models.ForeignKey(Crane, on_delete=models.CASCADE)
+    incoming_field_name = models.CharField(max_length=100, help_text="Field name from MQTT payload")
+    mapped_field_name = models.CharField(max_length=100, help_text="Field name in our system")
+    field_type = models.CharField(max_length=50, choices=FIELD_TYPE_CHOICES)
+    description = models.TextField(blank=True, help_text="Optional description of this data point")
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        unique_together = ['crane', 'incoming_field_name']
+        verbose_name = "Data Point Mapping"
+        verbose_name_plural = "Data Point Mappings"
+    
+    def __str__(self):
+        return f"{self.crane.crane_name}: {self.incoming_field_name} → {self.mapped_field_name}"

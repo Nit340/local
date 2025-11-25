@@ -7,7 +7,7 @@ from django.contrib import messages
 from .models import (
     Crane, IoTGateway, CraneGatewayMapping, CraneMotorMeasurement,
     CraneIOStatus, CraneLoadcellMeasurement, CraneAlarm, CraneConfiguration,
-    CraneHourlyKPIs, CraneDailyKPIs, MQTTMessageLog
+    CraneHourlyKPIs, CraneDailyKPIs, MQTTMessageLog  ,DataPointMapping
 )
 
 @admin.register(Crane)
@@ -164,3 +164,36 @@ class MQTTMessageLogAdmin(admin.ModelAdmin):
     ]
     list_filter = ['message_type', 'topic', 'timestamp']
     date_hierarchy = 'timestamp'
+
+@admin.register(DataPointMapping)
+class DataPointMappingAdmin(admin.ModelAdmin):
+    list_display = [
+        'crane', 'incoming_field_name', 'mapped_field_name', 
+        'field_type', 'is_active', 'created_at'
+    ]
+    list_filter = ['crane', 'field_type', 'is_active', 'created_at']
+    search_fields = ['incoming_field_name', 'mapped_field_name', 'crane__crane_name']
+    list_editable = ['is_active']
+    readonly_fields = ['created_at', 'updated_at']
+    
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('crane', 'is_active')
+        }),
+        ('Field Mapping', {
+            'fields': ('incoming_field_name', 'mapped_field_name', 'field_type')
+        }),
+        ('Additional Information', {
+            'fields': ('description',),
+            'classes': ('collapse',)
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # editing an existing object
+            return self.readonly_fields + ('crane', 'incoming_field_name')
+        return self.readonly_fields
